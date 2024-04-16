@@ -36,9 +36,69 @@ document.addEventListener('DOMContentLoaded', function() {
     },
     editable: true,
     droppable: true,
+    eventResizableFromStart: true, // Allow resizing from the start date of events
+    eventResizableFromEnd: true,
     eventDrop: function(info) {
       alert('Event dropped to: ' + info.event.startStr);
-    }
+    },
+    eventResize: function(info) {
+      alert('Event resized to: ' + info.event.startStr + ' - ' + info.event.endStr);
+    },
+    initialView: 'dayGridMonth',
+    initialDate: '2024-03-07',
+    headerToolbar: {
+      start: 'dayGridMonth,timeGridWeek,timeGridDay today',
+      center: 'title',
+      end: 'custom1 prevYear,prev,next,nextYear'
+    },
+    events: [
+      {
+        title: 'All Day Event',
+        start: '2024-03-01'
+      },
+      {
+        title: 'Long Event',
+        start: '2024-03-07',
+        end: '2024-03-10'
+      },
+      {
+        groupId: '999',
+        title: 'Repeating Event',
+        start: '2024-03-09T16:00:00'
+      },
+      {
+        groupId: '999',
+        title: 'Repeating Event',
+        start: '2024-03-16T16:00:00'
+      },
+      {
+        title: 'Conference',
+        start: '2024-03-11',
+        end: '2024-03-13'
+      },
+      {
+        title: 'Meeting',
+        start: '2024-03-12T10:30:00',
+        end: '2024-03-12T12:30:00'
+      },
+      {
+        title: 'Lunch',
+        start: '2024-03-12T12:00:00'
+      },
+      {
+        title: 'Meeting',
+        start: '2024-03-12T14:30:00'
+      },
+      {
+        title: 'Birthday Party',
+        start: '2024-03-13T07:00:00'
+      },
+      {
+        title: 'Click for Google',
+        url: 'https://google.com/',
+        start: '2024-03-28'
+      }
+    ]
   });
 
   calendar.render();
@@ -56,34 +116,25 @@ document.addEventListener('DOMContentLoaded', function() {
     event.preventDefault(); // Prevent default form submission
     var title = document.getElementById('title').value;
     var description = document.getElementById('description').value;
-    var date = document.getElementById('date').value;
-    var time = document.getElementById('time').value;
+    var startDate = document.getElementById('startDate').value;
+    var startTime = document.getElementById('startTime').value;
+    var endDate = document.getElementById('endDate').value;
+    var endTime = document.getElementById('endTime').value;
 
-    // Construct start datetime
-    var startDatetime = new Date(date + 'T' + time);
+    // Construct start and end date-time strings
+    var startDatetime = new Date(startDate + 'T' + startTime);
+    var endDatetime = new Date(endDate + 'T' + endTime);
 
-    // Send POST request to backend to add event
-    fetch('/api/events', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        title: title,
-        description: description,
-        start: startDatetime
-      })
-    })
-    .then(response => response.json())
-    .then(data => {
-      console.log('Event added:', data);
-      // Add the event to the calendar
-      calendar.addEvent(data);
-    })
-    .catch(error => {
-      console.error('Error adding event:', error);
-      // Handle error
-    });
+    // Create event object
+    var eventData = {
+      title: title,
+      start: startDatetime,
+      end: endDatetime,
+      description: description
+    };
+
+    // Add event to the calendar
+    calendar.addEvent(eventData);
 
     // Close the modal
     var modal = document.getElementById('eventModal');
@@ -116,5 +167,3 @@ document.addEventListener('DOMContentLoaded', function() {
       // Handle error
     });
 });
-
-
