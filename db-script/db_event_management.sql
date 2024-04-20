@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.2
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 28, 2020 at 05:08 AM
--- Server version: 10.4.11-MariaDB
--- PHP Version: 7.2.30
+-- Generation Time: Apr 20, 2024 at 10:17 AM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 7.4.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -32,7 +32,7 @@ CREATE TABLE `tbl_frontdesk_users` (
   `username` varchar(100) NOT NULL,
   `pwd` varchar(200) NOT NULL,
   `bdate` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 -- --------------------------------------------------------
 
@@ -45,7 +45,7 @@ CREATE TABLE `tbl_holidays` (
   `date` varchar(20) NOT NULL,
   `reason` varchar(100) NOT NULL,
   `bdate` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 -- --------------------------------------------------------
 
@@ -55,13 +55,21 @@ CREATE TABLE `tbl_holidays` (
 
 CREATE TABLE `tbl_reservations` (
   `id` int(10) NOT NULL,
-  `uid` int(10) NOT NULL,
+  `email` varchar(255) NOT NULL,
   `ucount` int(10) NOT NULL,
   `rdate` varchar(100) NOT NULL,
   `status` varchar(10) NOT NULL,
+  `title` varchar(255) NOT NULL,
   `comments` varchar(250) NOT NULL,
   `bdate` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Dumping data for table `tbl_reservations`
+--
+
+INSERT INTO `tbl_reservations` (`id`, `email`, `ucount`, `rdate`, `status`, `title`, `comments`, `bdate`) VALUES
+(7, '15', 6, '2024-04-25 20:10', 'APPROVED', '', '', '2024-04-18 18:28:36');
 
 -- --------------------------------------------------------
 
@@ -79,7 +87,7 @@ CREATE TABLE `tbl_users` (
   `type` varchar(10) NOT NULL,
   `status` varchar(10) NOT NULL,
   `bdate` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `tbl_users`
@@ -136,7 +144,7 @@ ALTER TABLE `tbl_holidays`
 -- AUTO_INCREMENT for table `tbl_reservations`
 --
 ALTER TABLE `tbl_reservations`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `tbl_users`
