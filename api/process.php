@@ -118,7 +118,7 @@ function regConfirm() {
 	$action 	= $_GET['action'];
 	$stat		= ($action == 'approve') ? 'APPROVED' : 'DENIED';
 	
-	$sql		= "UPDATE tbl_reservations SET status = '$stat' WHERE uid = $userId";
+	$sql		= "UPDATE tbl_reservations SET status = '$stat' WHERE id = $userId";
 	dbQuery($sql);
 	
 	//send email now.
@@ -130,10 +130,9 @@ function regConfirm() {
 
 function regDelete() {
 	$userId	= $_GET['userId'];
-	$sql1	= "DELETE FROM tbl_reservations WHERE uid = $userId";
+	$sql1	= "DELETE FROM tbl_reservations WHERE id = $userId";
 	dbQuery($sql1);
-	$sql2	= "DELETE FROM tbl_users WHERE id = $userId";
-	dbQuery($sql2);
+	
 	
 	header('Location: ../views/?v=LIST&msg=' . urlencode('User record successfully deleted.'));
 	exit();
