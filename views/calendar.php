@@ -52,7 +52,7 @@ $(function () {
         droppable: true, // this allows things to be dropped onto the calendar !!!
         drop: function (date, allDay) { },
 		eventClick: function(calEvent, jsEvent, view) {
-			//alert('Event: ' + calEvent.title);
+			// alert('Event: ' + calEvent.title);
 			//alert('Coordinates: ' + jsEvent.pageX + ',' + jsEvent.pageY);
 			//alert('View: ' + view.name);
 			// change the border color just for fun
@@ -62,7 +62,7 @@ $(function () {
 			//console.log('dayRender');
     		//console.log(date.format());
 			//$(cell).addClass('fc-disabled').html('Disabled');
-			 $(cell).css('opacity', 1);
+			 $(cell).css('opacity', 4);
 			//$(cell).css("display", "none");//    display:none;
 		},
 		viewRender: function(view, element) {},

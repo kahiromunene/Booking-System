@@ -69,30 +69,35 @@ function doLogout()
 }
 
 function getBookingRecords(){
-	$per_page = 10;
-	$page = (isset($_GET['page']) && $_GET['page'] != '') ? $_GET['page'] : 1;
-	$start 	= ($page-1)*$per_page;
-	$sql 	= "SELECT u.id AS uid, u.name, u.phone, u.email,
-			   r.ucount, r.rdate, r.status, r.comments   
-			   FROM tbl_users u, tbl_reservations r 
-			   WHERE u.id = r.uid  
-			   ORDER BY r.id DESC LIMIT $start, $per_page";
-	//echo $sql;
-	$result = dbQuery($sql);
-	$records = array();
-	while($row = dbFetchAssoc($result)) {
-		extract($row);
-		$records[] = array("user_id" => $uid,
-							"user_name" => $name,
-							"user_phone" => $phone,
-							"user_email" => $email,
-							"count" => $ucount,
-							"res_date" => $rdate,
-							"status" => $status,
-							"comments" => $comments);	
-	}//while
-	return $records;
+    $per_page = 10;
+    $page = isset($_GET['page']) ? intval($_GET['page']) : 1;
+    $start = ($page - 1) * $per_page;
+
+    $sql = "SELECT r.id, r.title, r.comments, r.email,
+               r.ucount, r.rdate, r.status, r.comments   
+               FROM tbl_reservations r 
+               ORDER BY r.id DESC
+               LIMIT $start, $per_page";
+
+    $result = dbQuery($sql);
+    $records = array();
+
+    while($row = dbFetchAssoc($result)) {
+        $records[] = array(
+            "booking_id" => $row['id'],
+            "user_name" => $row['title'],
+            "user_phone" => $row['comments'],
+            "user_email" => $row['email'],
+            "count" => $row['ucount'],
+            "res_date" => $row['rdate'],
+            "status" => $row['status'],
+            "comments" => $row['comments']
+        );
+    }
+
+    return $records;
 }
+
 
 
 function getUserRecords(){

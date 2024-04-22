@@ -14,6 +14,7 @@ class Booking {
 	public $backgroundColor;
 	public $borderColor;
 	public $url;
+	public $comments;
 	public $className;
 	public $block = false;
 		

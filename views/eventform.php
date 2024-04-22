@@ -9,26 +9,21 @@
     <div class="box-body">
 	   <div class="form-group">
         <label for="exampleInputEmail1">Title</label>
-		<span id="sprytf_phone">
+		<span id="">
         <input type="text" name="title" class="form-control input-sm"  placeholder="Title" id="phone">
-		<span class="textfieldRequiredMsg">Title  is required.</span>
 		</span>
       </div>
 	  <div class="form-group">
         <label for="exampleInputEmail1">Description</label>
-		<span id="sprytf_address">
+		<span id="">
         <textarea name="description" class="form-control input-sm" placeholder="Description" id="address"></textarea>
-		<span class="textareaRequiredMsg">Description is required.</span>
-		<span class="textareaMinCharsMsg">Description must specify at least 10 characters.</span>	
 		</span>
       </div>
 	 
 	  <div class="form-group">
         <label for="exampleInputEmail1">Email address</label>
-		<span id="sprytf_email">
+		<span id="">
         <input type="text" name="email" class="form-control input-sm" placeholder="Enter email" id="email">
-		<span class="textfieldRequiredMsg">Email ID is required.</span>
-		<span class="textfieldInvalidFormatMsg">Please enter a valid email (user@domain.com).</span>
 		</span>
       </div>
 	  
@@ -36,18 +31,14 @@
       <div class="row">
       	<div class="col-xs-6">
 			<label>Reservation Date</label>
-			<span id="sprytf_rdate">
+			<span id="">
         	<input type="date" name="rdate" class="form-control" placeholder="YYYY-mm-dd">
-			<span class="textfieldRequiredMsg">Date is required.</span>
-			<span class="textfieldInvalidFormatMsg">Invalid date Format.</span>
 			</span>
         </div>
         <div class="col-xs-6">
 			<label>Reservation Time</label>
-			<span id="sprytf_rtime">
+			<span id="">
             <input type="time" name="rtime" class="form-control" placeholder="HH:mm">
-			<span class="textfieldRequiredMsg">Time is required.</span>
-			<span class="textfieldInvalidFormatMsg">Invalid time Format.</span>
 			</span>
        </div>
       </div>
@@ -55,7 +46,7 @@
 	  <div class="form-group">
 			<label for="exampleInputEmail1">Duration</label>
 			<input type="hidden" name="duration" value=""  id="userId"/>
-			<span id="sprytf_name">
+			<span id="">
 			<select name="name" class="form-control input-sm">
 				<option>--select Duration--</option>
 				<option value="15">15 Min</option>
@@ -73,16 +64,13 @@
 				<option value="600">10 Hours</option>
 				
 			</select>
-			<span class="selectRequiredMsg">Duration is required.</span>
 		
 			</span>
       </div>			  
 	  <div class="form-group">
         <label for="exampleInputPassword1">No of People</label>
-		<span id="sprytf_ucount">
+		<span id="">
         <input type="text" name="ucount" class="form-control input-sm" placeholder="No of people" >
-		<span class="textfieldRequiredMsg">No of people is required.</span>
-		<span class="textfieldInvalidFormatMsg">Invalid Format.</span>
       </div>
     <!-- /.box-body -->
     <div class="box-footer">
