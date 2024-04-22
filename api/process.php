@@ -66,7 +66,7 @@ function addHoliday() {
 
 function bookCalendar() {
 	$duration 		= $_POST['duration'];
-	$userId		= (int)$_POST['userId'];
+	
 	$description 	= $_POST['description'];
 	$title 		= $_POST['title'];
 	$email 		= $_POST['email'];
@@ -91,16 +91,26 @@ function bookCalendar() {
 	$insert_id = dbInsertId();
 	*/
 	
-	$sql = "INSERT INTO tbl_reservations (email, ucount, rdate, status,title, comments, bdate) 
-			VALUES ($email, $ucount, '$bkdate', 'PENDING', $title, $description, NOW())";
-	dbQuery($sql);
-	
+$sql = "INSERT INTO tbl_reservations (email, ucount, rdate, status, title, comments, bdate) 
+	VALUES ('$email', '$ucount', '$bkdate', 'PENDING', '$title', '$description', NOW())";
+
+
+$result = dbQuery($sql);
+
+if ($result) {
 	//send email on registration confirmation
 	$bodymsg = "User $name booked the date slot on $bkdate. Requesting you to please take further action on user booking.<br/>Mbr/>Tousif Khan";
 	$data = array('to' => 'tousifkhan510@gmail.com', 'sub' => 'Booking on $rdate.', 'msg' => $bodymsg);
-	//send_email($data);
-	header('Location: ../index.php?msg=' . urlencode('User successfully registered.'));
-	exit();
+    // Insertion successful, redirect with success message
+    header('Location: ../index.php?msg=' . urlencode('Event successfully registered.'));
+    exit();
+} else {
+    // Insertion failed, display error message
+    $errorMessage = 'Failed to register event. Please try again later.';
+    header('Location: ../views/?v=DB&err=' . urlencode($errorMessage));
+    exit();
+}
+	
 }
 
 function regConfirm() {
@@ -143,25 +153,29 @@ function calendarView() {
 	$end 	= $_POST['end'];
 	//$edate	= date("Y-m-d\TH:i\Z", time($end));
 	$bookings = array();
-	$sql	= "SELECT u.name AS u_name, u.id AS user_id, r.rdate, r.status 
-			   FROM tbl_users u, tbl_reservations r 
-			   WHERE u.id = r.uid  
-			   AND (r.rdate BETWEEN '$start' AND '$end')";
-	//AND r.status = 'APPROVED'
-	$result = dbQuery($sql);
-	while($row = dbFetchAssoc($result)) {
-		extract($row);
-		$book = new Booking();
-		$book->title = $u_name;
-		$book->start = $rdate; 
-		$bgClr = '#f39c12';//pending
-		if($status == 'DENIED') {$bgClr = '#ff0000';}
-		else if($status == 'APPROVED') {$bgClr = '#00cc00';}
-		$book->backgroundColor = $bgClr; //#7FFF00 -> green, #ff0000 red, #f39c12 -> pending 
-		$book->borderColor = $bgClr;
-		$book->url = WEB_ROOT . 'views/?v=USER&ID='.$user_id;
-		$bookings[] = $book; 
-	}
+	$sql = "SELECT id,title, comments, rdate, status 
+        FROM tbl_reservations
+        WHERE rdate BETWEEN '$start' AND '$end'";
+$result = dbQuery($sql);
+$bookings = array();
+
+while($row = dbFetchAssoc($result)) {
+    $book = new Booking();
+    $book->title = $row['title'];
+    $book->start = $row['rdate']; 
+    $book->comments = $row['comments']; 
+    $bgClr = '#f39c12'; // pending
+    if ($row['status'] == 'DENIED') {
+        $bgClr = '#ff0000';
+    } elseif ($row['status'] == 'APPROVED') {
+        $bgClr = '#00cc00';
+    }
+    $book->backgroundColor = $bgClr;
+    $book->borderColor = $bgClr;
+    // Assuming you have the ID available in the $row array
+    $book->url = WEB_ROOT . 'views/?v=USER&ID=' . $row['id'];
+    $bookings[] = $book;
+}
 	//execute SQLs to get the Holiday blocking days List within the limit of start, end date;
 	$hsql	= "SELECT * FROM tbl_holidays 
 			   WHERE (date BETWEEN '$start' AND '$end')";
